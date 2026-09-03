@@ -1,0 +1,100 @@
+.v-app-container,
+.v-app-content,
+main {
+  display: flex;
+}
+
+.v-app-container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.v-content-body {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.v-aside-nav {
+  position: relative;
+  z-index: 2;
+  width: 64px;
+  flex: 0 0 64px;
+}
+
+.v-aside-nav .v-aside-panel {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 280px;
+  transition: width 0.28s ease, box-shadow 0.28s ease;
+}
+
+.v-aside-nav.collapsed .v-aside-panel {
+  width: 64px;
+}
+
+.v-aside-nav:not(.collapsed) .v-aside-panel {
+  box-shadow: 8px 0 20px rgb(0 0 0 / 0.08);
+}
+
+.v-aside-right {
+  position: relative;
+  z-index: 2;
+  width: 64px;
+  flex: 0 0 64px;
+}
+
+.v-aside-right .v-aside-panel {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 280px;
+  transition: width 0.28s ease, box-shadow 0.28s ease;
+}
+
+.v-aside-right.collapsed .v-aside-panel {
+  width: 64px;
+}
+
+.v-aside-right:not(.collapsed) .v-aside-panel {
+  box-shadow: -8px 0 20px rgb(0 0 0 / 0.08);
+}
+
+.v-app-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.v-aside-brand {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.v-aside-brand-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.v-aside-nav.collapsed .v-aside-brand-label {
+  display: none;
+}
+
+.v-aside-nav.collapsed .v-aside-panel-content {
+  overflow: hidden;
+}

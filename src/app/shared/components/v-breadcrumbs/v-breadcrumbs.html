@@ -1,0 +1,12 @@
+@if (items().length > 1) {
+  <nav class="v-breadcrumbs" aria-label="Navegação estrutural">
+    @for (item of items(); track item.route; let last = $last) {
+      @if (last) {
+        <span aria-current="page">{{ item.label }}</span>
+      } @else {
+        <a [routerLink]="item.route">{{ item.label }}</a>
+        <span class="v-breadcrumbs-separator" aria-hidden="true">/</span>
+      }
+    }
+  </nav>
+}

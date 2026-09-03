@@ -1,0 +1,47 @@
+<mat-toolbar class="v-toolbar" [class.side-mode]="!showTopMenu()">
+  <div class="v-toolbar-left">
+    @if (showTopMenu()) {
+      <div class="v-brand-logo">
+        <img class="v-logo-icon" src="images/logo.png" alt="Logo">
+        <span class="v-logo-text">V Catalogo</span>
+      </div>
+
+      <v-nav-menu placement="toolbar" [interactionMode]="isTopMenuPinned() ? 'click' : 'hover'" />
+    }
+  </div>
+
+  <div class="v-toolbar-right">
+    @if (showTopMenu()) {
+      <button mat-icon-button class="v-icon-btn v-menu-mode-btn"
+        (click)="toggleMenuMode()"
+        [attr.aria-label]="toggleMenuModeLabel()"
+        [attr.title]="toggleMenuModeTitle()"
+        [attr.aria-pressed]="isTopMenuPinned()">
+        @if (isTopMenuPinned()) {
+          <mat-icon class="material-symbols-outlined v-toolbar-menu-icon">mouse_lock</mat-icon>
+        } @else {
+          <mat-icon class="material-symbols-outlined v-toolbar-menu-icon">mouse</mat-icon>
+        }
+      </button>
+    }
+    <button mat-icon-button class="v-icon-btn" aria-label="Pesquisar" title="Pesquisar">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button mat-icon-button class="v-icon-btn" aria-label="Notificações" title="Notificações">
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <button mat-icon-button class="v-icon-btn theme-toggle"
+      (click)="toggleTheme()"
+      [attr.aria-label]="toggleThemeLabel()" [attr.title]="toggleThemeTitle()">
+      <mat-icon class="material-symbols-outlined" [fontIcon]="toggleThemeIcon()" />
+    </button>
+    <button mat-icon-button class="v-icon-btn menu-toggle"
+      (click)="toggleMenu()"
+      [attr.aria-label]="toggleMenuLabel()" [attr.title]="toggleMenuTitle()">
+      <mat-icon class="material-symbols-outlined v-toolbar-menu-icon" [fontIcon]="toggleMenuIcon()" />
+    </button>
+    <button mat-icon-button class="v-icon-btn" aria-label="Conta" title="Conta">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

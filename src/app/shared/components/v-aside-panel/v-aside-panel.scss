@@ -1,0 +1,214 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 280px;
+  flex: 0 0 280px;
+  transition: width 0.28s ease, flex-basis 0.28s ease;
+}
+
+:host(.collapsed) {
+  width: 64px;
+  flex-basis: 64px;
+}
+
+:host(.right) {
+  order: 1;
+}
+
+:host(.edge-toggle) .v-aside-panel-header > button {
+  position: absolute;
+  top: 16px;
+  left: auto;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background-color: transparent;
+  box-shadow: none;
+  z-index: 1;
+}
+
+:host(.collapse-to-button) {
+  width: 280px;
+  flex-basis: 280px;
+}
+
+:host(.collapse-to-button.collapsed) {
+  width: 56px;
+  flex-basis: 56px;
+}
+
+.v-aside-panel {
+  width: 280px;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  padding: 16px;
+  height: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  transition: width 0.3s ease, padding 0.3s ease;
+  position: relative;
+
+  &.right {
+    border-right: none;
+    border-left: 1px solid var(--mat-sys-outline-variant);
+
+    .v-aside-panel-header {
+      flex-direction: row-reverse;
+    }
+
+    .v-aside-panel-heading {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .v-aside-panel-content {
+      text-align: right;
+    }
+  }
+
+  &.collapsed {
+    width: 64px;
+    padding: 16px 8px;
+
+    .v-aside-panel-header {
+      display: block;
+    }
+
+    .v-aside-panel-heading {
+      justify-content: center;
+    }
+
+    .v-aside-panel-header > button {
+      position: absolute;
+      top: 16px;
+      right: -16px;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .v-aside-toggle-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+}
+
+:host(.collapse-to-button) .v-aside-panel.collapsed {
+  width: 56px;
+  padding: 8px 4px;
+}
+
+.v-aside-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+:host(.edge-toggle) .v-aside-panel-header > button:hover {
+  background-color: var(--mat-sys-surface-container-highest);
+}
+
+.v-aside-panel-heading {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+
+  &.clickable {
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:focus-visible {
+      outline: 2px solid var(--mat-sys-primary);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.v-aside-toggle-icon {
+  font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+
+:host(.collapse-to-button) {
+  .v-aside-panel-header {
+    margin: 0;
+  }
+
+  .v-aside-panel.collapsed .v-aside-panel-header {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .v-aside-panel.collapsed .v-aside-panel-heading {
+    order: 2;
+    flex: 0 0 auto;
+    justify-content: center;
+  }
+
+  .v-aside-panel.collapsed h3 {
+    width: 1rem;
+    font-size: 0.875rem;
+    line-height: 1;
+    white-space: normal;
+    text-align: center;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+
+  .v-aside-panel.collapsed .v-aside-panel-header > button {
+    order: 1;
+    position: static;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .v-aside-panel.collapsed .v-aside-toggle-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &.right .v-aside-panel.collapsed .v-aside-panel-header > button {
+    align-self: flex-start;
+  }
+}
+
+.v-aside-panel-content {
+  overflow-y: auto;
+  height: calc(100% - 48px);
+
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-8px);
+    pointer-events: none;
+  }
+
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.18s ease, transform 0.28s ease, visibility 0.28s;
+}

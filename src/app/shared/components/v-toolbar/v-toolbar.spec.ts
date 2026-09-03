@@ -1,0 +1,38 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { VToolbar } from './v-toolbar';
+
+describe('VToolbar', () => {
+  let component: VToolbar;
+  let fixture: ComponentFixture<VToolbar>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [VToolbar],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(VToolbar);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should toggle the shared menu interaction mode', () => {
+    fixture.componentRef.setInput('isTopMenuPinned', false);
+    let emittedValue = false;
+    component.isTopMenuPinnedChange.subscribe(value => emittedValue = value);
+    expect(component.toggleMenuModeIcon()).toBe('mouse');
+
+    component.toggleMenuMode();
+
+    expect(emittedValue).toBe(true);
+    fixture.componentRef.setInput('isTopMenuPinned', true);
+    expect(component.toggleMenuModeIcon()).toBe('mouse_lock');
+
+    component.toggleMenuMode();
+
+    expect(emittedValue).toBe(false);
+  });
+});

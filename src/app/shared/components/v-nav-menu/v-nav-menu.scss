@@ -1,0 +1,100 @@
+.v-nav-links {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	.v-nav-item,
+	.v-nav-children {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.v-nav-item {
+		position: relative;
+	}
+
+	.v-nav-link {
+		width: 100%;
+		justify-content: flex-start;
+		padding-left: calc(12px + (var(--v-nav-level, 0) * 12px));
+		color: var(--mat-sys-on-surface-variant);
+
+		&.active,
+		&:hover {
+			color: var(--mat-sys-primary);
+		}
+	}
+}
+
+.v-nav-expand-icon {
+	margin-left: auto;
+}
+
+.v-nav-links:not(.toolbar-placement) {
+	width: 100%;
+	align-items: stretch;
+	overflow: hidden;
+
+	.v-nav-link { min-width: 0; }
+}
+
+.v-nav-links:not(.toolbar-placement) .v-nav-link mat-icon {
+		flex: 0 0 auto;
+}
+
+.v-nav-links:not(.toolbar-placement) .v-nav-link span {
+		white-space: nowrap;
+}
+
+:host-context(.collapsed) .v-nav-links:not(.toolbar-placement) .v-nav-link {
+		justify-content: center;
+		padding-inline: 0;
+}
+
+:host-context(.collapsed) .v-nav-links:not(.toolbar-placement) .v-nav-link span,
+:host-context(.collapsed) .v-nav-links:not(.toolbar-placement) .v-nav-expand-icon {
+		display: none;
+}
+
+:host-context(.collapsed) .v-nav-links:not(.toolbar-placement) .v-nav-link mat-icon {
+		margin: 0;
+}
+
+:host-context(.collapsed) .v-nav-links:not(.toolbar-placement) .v-nav-children {
+		display: none;
+}
+
+.v-nav-links.toolbar-placement {
+	flex-direction: row;
+	align-items: center;
+	margin-left: 16px;
+
+	> .v-nav-item > .v-nav-link {
+		width: auto;
+	}
+
+	> .v-nav-item > .v-nav-children {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		z-index: 3;
+		min-width: 208px;
+		padding: 6px 0;
+		background: var(--mat-sys-surface);
+		box-shadow: 0 8px 18px rgb(0 0 0 / 0.1);
+		gap: 2px;
+	}
+
+}
+
+.v-nav-links:not(.toolbar-placement) > .v-nav-item > .v-nav-children {
+	margin: 2px 0 4px 20px;
+	padding-left: 8px;
+	border-left: 1px solid var(--mat-sys-outline-variant);
+	gap: 2px;
+}
+
+.v-nav-links:not(.toolbar-placement) > .v-nav-item > .v-nav-children .v-nav-link {
+	padding-left: 12px;
+	border-radius: 4px;
+}

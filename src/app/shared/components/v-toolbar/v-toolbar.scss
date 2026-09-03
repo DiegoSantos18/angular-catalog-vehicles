@@ -1,0 +1,41 @@
+.v-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  padding: 0 24px;
+  height: 64px;
+}
+
+.v-toolbar-left, .v-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.v-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+
+  .v-logo-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+}
+
+.v-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.v-toolbar-menu-icon {
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+}
