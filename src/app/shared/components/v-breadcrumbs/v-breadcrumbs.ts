@@ -2,14 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-
-export interface BreadcrumbItem {
-  readonly label: string;
-  readonly route: string;
-}
+import { BreadcrumbItem } from '../../models/v-breadcrumbs/breadcrumb-item';
 
 @Component({
-  imports: [CommonModule, RouterLink],
+  imports: [
+    CommonModule,
+    RouterLink
+  ],
   selector: 'v-breadcrumbs',
   styleUrl: './v-breadcrumbs.scss',
   templateUrl: './v-breadcrumbs.html',

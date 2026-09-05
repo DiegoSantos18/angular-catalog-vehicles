@@ -1,6 +1,12 @@
-# AngularCatalogVehicles
+# Angular Catálogo De Veículos
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.6.
+
+![Apresentação Página Catálogo](.ideas/readme/image-1.png)
+![Apresentação Menu Lateral](.ideas/readme/image-2.png)
+![Apresentação Paineis Laterais](.ideas/readme/image-3.png)
+![Apresentação Tema Dark](.ideas/readme/image-4.png)
+![Apresentação Troca Menu](.ideas/readme/image-5.png)
 
 ## Development server
 

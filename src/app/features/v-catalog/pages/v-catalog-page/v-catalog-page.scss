@@ -1,18 +1,81 @@
 :host {
-  display: block;
-  flex: 1;
-  min-width: 0;
-  min-height: 0;
-}
-
-.v-page-container {
   display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
   height: 100%;
+  min-height: 0;
   overflow: hidden;
 }
 
-.v-page-content {
+.v-catalog-page-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  gap: 24px;
+  box-sizing: border-box;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.v-filters-sidebar {
+  flex-shrink: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  ::ng-deep v-aside-panel,
+  ::ng-deep .v-aside-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.v-main-content-wrapper {
   flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-right: 4px;
+  box-sizing: border-box;
+}
+
+.v-content-header {
+  padding-bottom: 16px;
+  flex-shrink: 0;
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.v-cards-content-area {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  padding: 24px;
+  box-sizing: border-box;
+}
+
+.v-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 24px;
+  align-items: stretch;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }

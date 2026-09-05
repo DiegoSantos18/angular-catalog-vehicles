@@ -3,45 +3,63 @@
     @if (showTopMenu()) {
       <div class="v-brand-logo">
         <img class="v-logo-icon" src="images/logo.png" alt="Logo">
-        <span class="v-logo-text">V Catalogo</span>
+        <span class="v-logo-text">V Catálogo</span>
       </div>
 
       <v-nav-menu placement="toolbar" [interactionMode]="isTopMenuPinned() ? 'click' : 'hover'" />
+    } @else {
+      <v-breadcrumbs class="v-global-breadcrumbs v-ml-2" />
     }
   </div>
 
   <div class="v-toolbar-right">
-    @if (showTopMenu()) {
-      <button mat-icon-button class="v-icon-btn v-menu-mode-btn"
-        (click)="toggleMenuMode()"
-        [attr.aria-label]="toggleMenuModeLabel()"
-        [attr.title]="toggleMenuModeTitle()"
-        [attr.aria-pressed]="isTopMenuPinned()">
-        @if (isTopMenuPinned()) {
-          <mat-icon class="material-symbols-outlined v-toolbar-menu-icon">mouse_lock</mat-icon>
-        } @else {
-          <mat-icon class="material-symbols-outlined v-toolbar-menu-icon">mouse</mat-icon>
-        }
+    <div class="v-search-container" [class.expanded]="isSearchExpanded" (mouseenter)="expandSearch()" (mouseleave)="collapseSearch()">
+      <input #searchInput type="text" class="v-search-input" placeholder="Pesquisar..." (focus)="isSearchExpanded = true" (blur)="checkCollapse($event)" />
+      <button mat-icon-button class="v-search-btn" aria-label="Pesquisar" title="Pesquisar" (click)="onSearchIconClick(searchInput)">
+        <mat-icon>search</mat-icon>
       </button>
-    }
-    <button mat-icon-button class="v-icon-btn" aria-label="Pesquisar" title="Pesquisar">
-      <mat-icon>search</mat-icon>
-    </button>
-    <button mat-icon-button class="v-icon-btn" aria-label="Notificações" title="Notificações">
+    </div>
+
+    <button mat-icon-button class="v-icon-btn" aria-label="Notificações" title="Notificações" matBadge="10">
       <mat-icon>notifications</mat-icon>
     </button>
-    <button mat-icon-button class="v-icon-btn theme-toggle"
-      (click)="toggleTheme()"
-      [attr.aria-label]="toggleThemeLabel()" [attr.title]="toggleThemeTitle()">
-      <mat-icon class="material-symbols-outlined" [fontIcon]="toggleThemeIcon()" />
-    </button>
-    <button mat-icon-button class="v-icon-btn menu-toggle"
-      (click)="toggleMenu()"
-      [attr.aria-label]="toggleMenuLabel()" [attr.title]="toggleMenuTitle()">
-      <mat-icon class="material-symbols-outlined v-toolbar-menu-icon" [fontIcon]="toggleMenuIcon()" />
-    </button>
+
     <button mat-icon-button class="v-icon-btn" aria-label="Conta" title="Conta">
       <mat-icon>account_circle</mat-icon>
     </button>
+
+    <ng-container>
+      <button mat-icon-button class="v-icon-btn" aria-label="Configurações" title="Configurações" [matMenuTriggerFor]="menuConfig">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menuConfig="matMenu">
+        <button mat-menu-item class="v-icon-btn theme-toggle"
+          (click)="toggleTheme()"
+          [attr.aria-label]="toggleThemeLabel()" [attr.title]="toggleThemeTitle()">
+          <mat-icon class="material-symbols-outlined" [fontIcon]="toggleThemeIcon()" />
+          <span>{{ toggleThemeLabel() }}</span>
+        </button>
+        <button mat-menu-item class="v-icon-btn menu-toggle"
+          (click)="toggleMenu()"
+          [attr.aria-label]="toggleMenuLabel()" [attr.title]="toggleMenuTitle()">
+          <mat-icon class="material-symbols-outlined v-toolbar-menu-icon" [fontIcon]="toggleMenuIcon()" />
+          <span>{{ toggleMenuLabel() }}</span>
+        </button>
+        @if (showTopMenu()) {
+          <button mat-menu-item class="v-icon-btn v-menu-mode-btn"
+            (click)="toggleMenuMode()"
+            [attr.aria-label]="toggleMenuModeLabel()"
+            [attr.title]="toggleMenuModeTitle()"
+            [attr.aria-pressed]="isTopMenuPinned()">
+            @if (isTopMenuPinned()) {
+              <mat-icon class="material-symbols-outlined v-toolbar-menu-icon">mouse_lock</mat-icon>
+            } @else {
+              <mat-icon class="material-symbols-outlined v-toolbar-menu-icon">mouse</mat-icon>
+            }
+            <span>{{ toggleMenuModeLabel()}}</span>
+          </button>
+        }
+      </mat-menu>
+    </ng-container>
   </div>
 </mat-toolbar>

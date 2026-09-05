@@ -3,7 +3,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from "@angular/material/icon";
 
 @Component({
-  imports: [MatButtonModule, MatIconModule],
+  imports: [
+    MatButtonModule,
+    MatIconModule
+  ],
   host: {
     '[class.collapsed]': '!isOpen()',
     '[class.collapse-to-button]': 'collapseToButton()',
@@ -17,6 +20,7 @@ import { MatIconModule } from "@angular/material/icon";
 export class VAsidePanel {
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   title = input<string>('');
+  icon = input<string>('');
   position = input<'left' | 'right'>('left');
   collapseToButton = input(false);
   hoverToOpen = input(false);
@@ -28,6 +32,7 @@ export class VAsidePanel {
   toggleIcons = input<{ open: string; closed: string }>();
   isOpen = model<boolean>(false);
   isPinned = model(false);
+  titleIconRight = computed(() => this.position() === 'right');
   asidePanelToggleButtonIcon = computed(() => {
     const icons = this.toggleIcons();
 

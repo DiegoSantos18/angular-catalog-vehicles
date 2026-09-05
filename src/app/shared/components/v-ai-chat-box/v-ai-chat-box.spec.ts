@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { VCard } from './v-card';
+import { VAiChatBox } from './v-ai-chat-box';
 
-describe('VCard', () => {
-  let component: VCard;
-  let fixture: ComponentFixture<VCard>;
+describe('VAiChatBox', () => {
+  let component: VAiChatBox;
+  let fixture: ComponentFixture<VAiChatBox>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VCard],
+      imports: [VAiChatBox],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(VCard);
+    fixture = TestBed.createComponent(VAiChatBox);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

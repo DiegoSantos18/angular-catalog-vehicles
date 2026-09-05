@@ -3,7 +3,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": []
+    "types": [],
+    "paths": {
+      "@environments/*": ["./src/environments/*"]
+    }
   },
   "include": [
     "src/**/*.ts"

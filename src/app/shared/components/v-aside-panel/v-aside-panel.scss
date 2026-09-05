@@ -28,6 +28,11 @@
   z-index: 1;
 }
 
+:host(.right.edge-toggle) .v-aside-panel-header > button {
+  right: auto;
+  left: 8px;
+}
+
 :host(.collapse-to-button) {
   width: 280px;
   flex-basis: 280px;
@@ -97,7 +102,11 @@
       height: 24px;
     }
   }
+}
 
+:host(.right) .v-aside-panel.collapsed .v-aside-panel-header > button {
+  right: auto;
+  left: -16px;
 }
 
 :host(.collapse-to-button) .v-aside-panel.collapsed {

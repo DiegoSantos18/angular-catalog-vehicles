@@ -1,1 +1,47 @@
-<p>v-filter works!</p>
+<div class="v-filter-container">
+  <div class="v-filter-header">
+    <input matInput type="text" placeholder="Pesquisar..." style="width: 150px;">
+    <button mat-button class="v-clear-btn">Limpar</button>
+  </div>
+
+  <div class="v-filter-section">
+    <h4>Faixa de Preço</h4>
+    <div class="v-price-inputs">
+      <mat-form-field appearance="outline" class="v-small-input">
+        <mat-label>Mín</mat-label>
+        <input matInput type="number" placeholder="20000">
+      </mat-form-field>
+      <span class="v-dash">-</span>
+      <mat-form-field appearance="outline" class="v-small-input">
+        <mat-label>Máx</mat-label>
+        <input matInput type="number" placeholder="60000">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="v-filter-section">
+    <h4>Marcas</h4>
+    <div class="v-checkbox-list">
+      <mat-checkbox>Audi</mat-checkbox>
+      <mat-checkbox>BMW</mat-checkbox>
+      <mat-checkbox>BYD</mat-checkbox>
+      <mat-checkbox>Chevrolet</mat-checkbox>
+      <mat-checkbox>Ford</mat-checkbox>
+      <mat-checkbox>Hyundai</mat-checkbox>
+      <mat-checkbox>Polestar</mat-checkbox>
+      <mat-checkbox>Porsche</mat-checkbox>
+      <mat-checkbox>Tesla</mat-checkbox>
+      <mat-checkbox>Volvo</mat-checkbox>
+    </div>
+  </div>
+
+  <div class="v-filter-section">
+    <h4>Condição</h4>
+    <div class="v-checkbox-list">
+      <mat-checkbox>Boa Oferta</mat-checkbox>
+      <mat-checkbox>Certificado</mat-checkbox>
+      <mat-checkbox>Novo na Loja</mat-checkbox>
+      <mat-checkbox>Ótima Oferta</mat-checkbox>
+    </div>
+  </div>
+</div>

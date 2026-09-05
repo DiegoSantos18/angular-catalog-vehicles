@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { MatIconRegistry } from '@angular/material/icon';
+import { of } from 'rxjs';
 import { VCatalogPage } from './v-catalog-page';
 
 describe('VCatalogPage', () => {
@@ -9,12 +11,25 @@ describe('VCatalogPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [VCatalogPage],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        {
+          provide: MatIconRegistry,
+          useValue: {
+            getDefaultFontSetClass: () => [],
+            getNamedSvgIcon: () => of(),
+            addSvgIcon: () => {},
+            addSvgIconLiteral: () => {},
+            addSvgIconInNamespace: () => {},
+            addSvgIconLiteralInNamespace: () => {}
+          }
+        }
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(VCatalogPage);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

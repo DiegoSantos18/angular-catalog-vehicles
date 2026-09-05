@@ -3,13 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-
-export interface NavItem {
-  readonly label: string;
-  readonly route?: string;
-  readonly icon?: string;
-  readonly children?: readonly NavItem[];
-}
+import { NavItem } from '../../models/v-nav-menu/nav-item';
 
 const DEFAULT_NAV_ITEMS: readonly NavItem[] = [
   { label: 'Home', route: '/', icon: 'home' },
@@ -24,12 +18,17 @@ const DEFAULT_NAV_ITEMS: readonly NavItem[] = [
 ];
 
 @Component({
-  imports: [MatButtonModule, MatIconModule, RouterLink, RouterLinkActive],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    MatButtonModule,
+    MatIconModule
+  ],
   selector: 'v-nav-menu',
   styleUrl: './v-nav-menu.scss',
   templateUrl: './v-nav-menu.html',
 })
-export class VNavMenu {
+export class VNavMenu implements OnInit, OnDestroy {
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   private readonly router = inject(Router);
   private routerSubscription?: Subscription;

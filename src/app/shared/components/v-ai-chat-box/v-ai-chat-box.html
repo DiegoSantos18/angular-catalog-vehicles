@@ -1,0 +1,69 @@
+<div class="v-ai-chat-container">
+  <div class="v-ai-chat-messages-area" #messagesArea>
+    @for (msg of messages(); track $index) {
+      <div class="v-ai-chat-message-row" [class.user]="msg.sender === 'user'" [class.ai]="msg.sender === 'ai'">
+        <div class="v-ai-chat-message-bubble">
+          <p>{{ msg.text }}</p>
+          <span class="v-ai-chat-timestamp">{{ msg.time }}</span>
+        </div>
+      </div>
+    }
+
+    @if (isLoading()) {
+      <div class="v-ai-chat-message-row ai">
+        <div class="v-ai-chat-message-bubble typing-indicator">
+          <mat-spinner diameter="18"></mat-spinner>
+          <span>Digitando...</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="v-ai-chat-input-area">
+    <mat-form-field appearance="outline" class="v-ai-chat-input-field">
+      @if (aiName() === 'Gemini') {
+        <button mat-icon-button matPrefix class="v-ai-prefix-btn" [matMenuTriggerFor]="aiMenu" [disabled]="isLoading()" title="Modelo atual: Gemini">
+          <mat-icon class="ai-brand-icon" fontSet="fa-brands" fontIcon="fa-google" />
+        </button>
+      } @else if (aiName() === 'ChatGPT') {
+        <button mat-icon-button matPrefix class="v-ai-prefix-btn" [matMenuTriggerFor]="aiMenu" [disabled]="isLoading()" title="Modelo atual: ChatGPT">
+          <mat-icon class="ai-brand-icon" fontSet="fa-brands" fontIcon="fa-openai" />
+        </button>
+      } @else if (aiName() === 'Copilot') {
+        <button mat-icon-button matPrefix class="v-ai-prefix-btn" [matMenuTriggerFor]="aiMenu" [disabled]="isLoading()" title="Modelo atual: Copilot">
+          <mat-icon class="ai-brand-icon" fontSet="fa-brands" fontIcon="fa-microsoft" />
+        </button>
+      } @else {
+        <button mat-icon-button matPrefix class="v-ai-prefix-btn" [matMenuTriggerFor]="aiMenu" [disabled]="isLoading()" [title]="'Modelo atual: ' + aiName()">
+          <mat-icon class="ai-brand-icon">smart_toy</mat-icon>
+        </button>
+      }
+
+      <input matInput
+        [placeholder]="`Peça ao ${aiName()}...`"
+        [ngModel]="userInput()"
+        (ngModelChange)="userInput.set($event)"
+        (keydown.enter)="sendMessage()"
+        [disabled]="isLoading()">
+
+      <button mat-icon-button matSuffix (click)="sendMessage()" [disabled]="!userInput().trim() || isLoading()" title="Enviar">
+        <mat-icon class="material-symbols-outlined">send</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-menu #aiMenu="matMenu" xPosition="before" yPosition="above">
+      <button mat-menu-item (click)="selectAi('Gemini')" [class.active-model]="aiName() === 'Gemini'">
+        <mat-icon fontSet="fa-brands" fontIcon="fa-google" />
+        <span>Gemini</span>
+      </button>
+      <button mat-menu-item (click)="selectAi('ChatGPT')" [class.active-model]="aiName() === 'ChatGPT'">
+        <mat-icon fontSet="fa-brands" fontIcon="fa-openai" />
+        <span>ChatGPT</span>
+      </button>
+      <button mat-menu-item (click)="selectAi('Copilot')" [class.active-model]="aiName() === 'Copilot'">
+        <mat-icon fontSet="fa-brands" fontIcon="fa-microsoft" />
+        <span>Copilot</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

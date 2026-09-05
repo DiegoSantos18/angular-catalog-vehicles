@@ -1,10 +1,21 @@
-<div class="v-page-container">
-  <v-aside-panel title="Filtros" icon="filter_alt" position="left" [collapseToButton]="true">
-    <v-filter />
-  </v-aside-panel>
+<div class="v-catalog-page-layout">
+  <aside class="v-filters-sidebar">
+    <v-aside-panel title="Filtros" icon="filter_alt" position="left" [collapseToButton]="true">
+      <v-filter />
+    </v-aside-panel>
+  </aside>
 
-  <main class="v-page-content">
-    <v-breadcrumbs />
-    <p>v-catalog-page works!</p>
-  </main>
+  <div class="v-main-content-wrapper">
+    <div class="v-content-header">
+      <h2 style="padding: 15px 0;">🚗💨 Veículos elétricos, inspecionados e prontos</h2>
+    </div>
+
+    <main class="v-cards-content-area">
+      <div class="v-cards-grid">
+        @for (item of itens(); track item.id) {
+          <v-catalog-card [item]="item" />
+        }
+      </div>
+    </main>
+  </div>
 </div>

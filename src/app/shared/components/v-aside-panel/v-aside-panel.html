@@ -5,8 +5,14 @@
   <div class="v-aside-panel-header">
     <div class="v-aside-panel-heading">
       <ng-content select="[aside-panel-header]" />
+      @if (icon() && isOpen() && !titleIconRight()) {
+        <mat-icon class="material-symbols-outlined">{{ icon() }}</mat-icon>
+      }
       @if (title()) {
         <h3>{{ title() }}</h3>
+      }
+      @if (icon() && isOpen() && titleIconRight()) {
+        <mat-icon class="material-symbols-outlined">{{ icon() }}</mat-icon>
       }
     </div>
 

@@ -6,10 +6,10 @@
       [(isPinned)]="isMenuPinned"
       [togglePlacement]="'edge'"
       [toggleIcons]="{ open: 'mouse_lock', closed: 'mouse' }"
-      [isOpen]="true">
+      [isOpen]="false">
       <div aside-panel-header class="v-aside-brand">
-        <img class="v-aside-brand-logo" src="images/logo.png" alt="V Catalogo">
-        <span class="v-aside-brand-label">V Catalogo</span>
+        <img class="v-aside-brand-logo" src="images/logo.png" alt="V Catálogo">
+        <span class="v-aside-brand-label">V Catálogo</span>
       </div>
       <v-nav-menu placement="side"
         [interactionMode]="isMenuPinned() ? 'click' : 'hover'" />
@@ -22,10 +22,18 @@
       <main class="v-app-content">
         <router-outlet />
       </main>
-
-      <v-aside-panel class="v-aside-right" title="Ajustes" icon="settings" position="right" [collapseToButton]="true">
-        <p>Opções de Teste...</p>
+      <v-aside-panel class="v-aside-right" title="HUB IA" icon="smart_toy" position="right" [collapseToButton]="true">
+        <v-ai-chat-page />
       </v-aside-panel>
     </div>
+
+    <footer class="v-app-footer">
+      <p>
+        <span>&copy; 2026 Diego Dos Santos -
+          <mat-icon fontSet="fa-brands" fontIcon="fa-github"/>
+          <a href="https://github.com/DiegoSantos18" target="_blank">GitHub</a>
+        </span>
+      </p>
+    </footer>
   </div>
 </div>

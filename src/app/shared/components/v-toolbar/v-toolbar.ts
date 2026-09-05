@@ -1,11 +1,22 @@
-import { Component, computed, effect, input, model, OnInit, output, signal } from '@angular/core';
+import { Component, computed, input, model, OnInit, output, signal } from '@angular/core';
+import { VNavMenu } from "../v-nav-menu/v-nav-menu";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatToolbar } from '@angular/material/toolbar';
-import { VNavMenu } from "../v-nav-menu/v-nav-menu";
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatBadgeModule } from "@angular/material/badge"
+import { MatMenuModule } from '@angular/material/menu';
+import { VBreadcrumbs } from "../v-breadcrumbs/v-breadcrumbs";
 
 @Component({
-  imports: [MatToolbar, MatButtonModule, MatIconModule, VNavMenu],
+  imports: [
+    VNavMenu,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatBadgeModule,
+    MatMenuModule,
+    VBreadcrumbs
+  ],
   selector: 'v-toolbar',
   styleUrl: './v-toolbar.scss',
   templateUrl: './v-toolbar.html',
@@ -16,19 +27,20 @@ export class VToolbar implements OnInit {
   isTopMenuPinned = input<boolean>(false);
   isTopMenuPinnedChange = output<boolean>();
   private readonly menuPinnedState = signal(false);
-  private readonly syncMenuPinnedState = effect(() => {
-    this.menuPinnedState.set(this.isTopMenuPinned());
-  });
-  toggleThemeLabel = signal<string>('Alternar Tema');
-  toggleMenuLabel = signal<string>('Alternar Menu');
+  toggleThemeLabel = signal<string>('Trocar Tema');
+  toggleMenuLabel = signal<string>('Trocar Menu');
   toggleMenuModeLabel = signal<string>('Modo do menu');
+
+  isSearchExpanded = false;
+  private isInputFocused = false;
+
   toggleThemeIcon = computed(() => this.isDarkMode()
     ? 'light_mode'
     : 'dark_mode'
   );
-  toggleThemeTitle = computed(() => `${this.toggleThemeLabel()} ${this.isDarkMode() ? 'Claro' : 'Escuro'}`);
+  toggleThemeTitle = computed(() => `${this.isDarkMode() ? 'Claro' : 'Escuro'}`);
   toggleMenuIcon = computed(() => this.showTopMenu() ? 'side_navigation' : 'toolbar');
-  toggleMenuTitle = computed(() => `${this.toggleMenuLabel()} ${this.showTopMenu() ? 'na Lateral' : 'no Topo'}`);
+  toggleMenuTitle = computed(() => `${this.showTopMenu() ? 'Lateral' : 'Topo'}`);
   toggleMenuModeIcon = computed(() => this.menuPinnedState() ? 'mouse_lock' : 'mouse');
   toggleMenuModeTitle = computed(() => this.menuPinnedState()
     ? 'Liberar menu para abrir ao passar o mouse'
@@ -54,5 +66,26 @@ export class VToolbar implements OnInit {
     const nextValue = !this.menuPinnedState();
     this.menuPinnedState.set(nextValue);
     this.isTopMenuPinnedChange.emit(nextValue);
+  }
+
+  expandSearch() {
+    this.isSearchExpanded = true;
+  }
+
+  collapseSearch() {
+    if (!this.isInputFocused) {
+      this.isSearchExpanded = false;
+    }
+  }
+
+  onSearchIconClick(inputElement: HTMLInputElement) {
+    this.isSearchExpanded = true;
+    inputElement.focus();
+    this.isInputFocused = true;
+  }
+
+  checkCollapse(event: FocusEvent) {
+    this.isInputFocused = false;
+    this.isSearchExpanded = false;
   }
 }
