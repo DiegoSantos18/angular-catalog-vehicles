@@ -1,7 +1,7 @@
 <div class="v-catalog-page-layout">
   <aside class="v-filters-sidebar">
     <v-aside-panel title="Filtros" icon="filter_alt" position="left" [collapseToButton]="true">
-      <v-filter />
+      <v-filter (filterChanged)="onFilterChanged($event)" />
     </v-aside-panel>
   </aside>
 
@@ -12,7 +12,7 @@
 
     <main class="v-cards-content-area">
       <div class="v-cards-grid">
-        @for (item of itens(); track item.id) {
+        @for (item of filteredItens(); track item.id) {
           <v-catalog-card [item]="item" />
         }
       </div>

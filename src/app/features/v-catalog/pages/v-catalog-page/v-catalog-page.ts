@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VAsidePanel } from '../../../../shared/components/v-aside-panel/v-aside-panel';
 import { VFilter } from '../../components/v-filter/v-filter';
@@ -6,6 +6,7 @@ import { VCatalogCard } from '../../components/v-catalog-card/v-catalog-card';
 
 @Component({
   selector: 'v-catalog-page',
+  standalone: true,
   imports: [
     CommonModule,
     VAsidePanel,
@@ -16,7 +17,7 @@ import { VCatalogCard } from '../../components/v-catalog-card/v-catalog-card';
   templateUrl: './v-catalog-page.html',
 })
 export class VCatalogPage {
-  itens = signal([
+  allItens = signal([
     {
       id: 1,
       title: 'Polestar 2 Pilot Plus AWD 2020',
@@ -158,4 +159,53 @@ export class VCatalogPage {
       imageUrl: 'https://blog.usezapay.com.br/wp-content/uploads/2023/09/Blazer-chevrolet.jpg'
     }
   ]);
+
+  currentFilters = signal<any>({
+    search: '',
+    minPrice: null,
+    maxPrice: null,
+    brands: [],
+    conditions: []
+  });
+
+  filteredItens = computed(() => {
+    const filters = this.currentFilters();
+    const items = this.allItens();
+
+    return items.filter(item => {
+      if (filters.search) {
+        const query = filters.search.toLowerCase();
+        const matchTitle = item.title.toLowerCase().includes(query);
+        const matchLocation = item.location.toLowerCase().includes(query);
+        if (!matchTitle && !matchLocation) return false;
+      }
+
+      if (filters.minPrice !== null && filters.minPrice !== '' && item.price < Number(filters.minPrice)) {
+        return false;
+      }
+
+      if (filters.maxPrice !== null && filters.maxPrice !== '' && item.price > Number(filters.maxPrice)) {
+        return false;
+      }
+
+      if (filters.brands && filters.brands.length > 0) {
+        const matchBrand = filters.brands.some((b: string) =>
+          item.title.toLowerCase().includes(b.toLowerCase())
+        );
+        if (!matchBrand) return false;
+      }
+
+      if (filters.conditions && filters.conditions.length > 0) {
+        if (!filters.conditions.includes(item.badge)) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  });
+
+  onFilterChanged(filters: any) {
+    this.currentFilters.set(filters);
+  }
 }
