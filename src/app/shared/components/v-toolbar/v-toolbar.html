@@ -14,7 +14,15 @@
 
   <div class="v-toolbar-right">
     <div class="v-search-container" [class.expanded]="isSearchExpanded" (mouseenter)="expandSearch()" (mouseleave)="collapseSearch()">
-      <input #searchInput type="text" class="v-search-input" placeholder="Pesquisar..." (focus)="isSearchExpanded = true" (blur)="checkCollapse($event)" />
+      <input
+        #searchInput
+        type="text"
+        class="v-search-input"
+        placeholder="Pesquisar..."
+        [ngModel]="searchService.globalSearchQuery()"
+        (ngModelChange)="searchService.setQuery($event)"
+        (focus)="isSearchExpanded = true"
+        (blur)="checkCollapse($event)" />
       <button mat-icon-button class="v-search-btn" aria-label="Pesquisar" title="Pesquisar" (click)="onSearchIconClick(searchInput)">
         <mat-icon>search</mat-icon>
       </button>

@@ -1,14 +1,17 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import { VAsidePanel } from '../../../../shared/components/v-aside-panel/v-aside-panel';
 import { VFilter } from '../../components/v-filter/v-filter';
 import { VCatalogCard } from '../../components/v-catalog-card/v-catalog-card';
+import { VGobalSearch } from '../../../../core/services/v-global-search/v-gobal-search';
 
 @Component({
   selector: 'v-catalog-page',
   standalone: true,
   imports: [
     CommonModule,
+    MatButtonModule,
     VAsidePanel,
     VFilter,
     VCatalogCard
@@ -17,6 +20,8 @@ import { VCatalogCard } from '../../components/v-catalog-card/v-catalog-card';
   templateUrl: './v-catalog-page.html',
 })
 export class VCatalogPage {
+  globalSearch = inject(VGobalSearch);
+
   allItens = signal([
     {
       id: 1,
@@ -168,6 +173,20 @@ export class VCatalogPage {
     conditions: []
   });
 
+  currentPage = signal<number>(1);
+  pageSize = signal<number>(6);
+
+  constructor() {
+    effect(() => {
+      const globalQuery = this.globalSearch.globalSearchQuery();
+      this.currentFilters.update(filters => ({
+        ...filters,
+        search: globalQuery
+      }));
+      this.currentPage.set(1);
+    });
+  }
+
   filteredItens = computed(() => {
     const filters = this.currentFilters();
     const items = this.allItens();
@@ -205,7 +224,37 @@ export class VCatalogPage {
     });
   });
 
+  totalPages = computed(() => {
+    const total = this.filteredItens().length;
+    return Math.ceil(total / this.pageSize()) || 1;
+  });
+
+  paginatedItens = computed(() => {
+    const items = this.filteredItens();
+    const page = this.currentPage();
+    const size = this.pageSize();
+    const startIndex = (page - 1) * size;
+    return items.slice(startIndex, startIndex + size);
+  });
+
   onFilterChanged(filters: any) {
     this.currentFilters.set(filters);
+    this.currentPage.set(1);
+
+    if (!filters.search) {
+      this.globalSearch.setQuery('');
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update(p => p + 1);
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage() > 1) {
+      this.currentPage.update(p => p - 1);
+    }
   }
 }

@@ -1,11 +1,9 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map, of } from 'rxjs';
 import { environment } from '@environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class VAiApi {
   private http = inject(HttpClient);
 

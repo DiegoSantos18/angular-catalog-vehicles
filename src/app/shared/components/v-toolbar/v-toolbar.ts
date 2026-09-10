@@ -1,4 +1,5 @@
-import { Component, computed, input, model, OnInit, output, signal } from '@angular/core';
+import { Component, computed, inject, input, model, OnInit, output, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { VNavMenu } from "../v-nav-menu/v-nav-menu";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,9 +7,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from "@angular/material/badge"
 import { MatMenuModule } from '@angular/material/menu';
 import { VBreadcrumbs } from "../v-breadcrumbs/v-breadcrumbs";
+import { VGobalSearch } from '../../../core/services/v-global-search/v-gobal-search';
 
 @Component({
   imports: [
+    FormsModule,
     VNavMenu,
     MatButtonModule,
     MatIconModule,
@@ -22,6 +25,7 @@ import { VBreadcrumbs } from "../v-breadcrumbs/v-breadcrumbs";
   templateUrl: './v-toolbar.html',
 })
 export class VToolbar implements OnInit {
+  searchService = inject(VGobalSearch);
   showTopMenu = model<boolean>(false);
   isDarkMode = signal<boolean>(false);
   isTopMenuPinned = input<boolean>(false);
