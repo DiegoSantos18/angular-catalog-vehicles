@@ -5,5 +5,5 @@ export const environment = {
   chatGptApiKey: 'SUA_CHAVE_OPENAI_AQUI',
   chatGptUrl: 'https://api.openai.com/v1/chat/completions',
   apiUrl: 'api',
-  useMock: false
+  useMock: true
 };
