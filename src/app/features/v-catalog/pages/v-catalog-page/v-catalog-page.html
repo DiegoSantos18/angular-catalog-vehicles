@@ -1,7 +1,7 @@
 <div class="v-catalog-page-layout">
   <aside class="v-filters-sidebar">
     <v-aside-panel title="Filtros" icon="filter_alt" position="left" [collapseToButton]="true">
-      <v-filter (filterChanged)="onFilterChanged($event)" />
+      <v-catalog-filter (catalogFilterChanged)="onFilterChanged($event)" />
     </v-aside-panel>
   </aside>
 
@@ -11,28 +11,36 @@
     </div>
 
     <main class="v-cards-content-area">
-      <div class="v-cards-grid">
-        @for (item of paginatedItens(); track item.id) {
-          <v-catalog-card [item]="item" />
-        } @empty {
-          <div class="no-results-msg">Nenhum veículo encontrado.</div>
-        }
-      </div>
-
-      @if (totalPages() > 1) {
-        <div class="v-pagination-container">
-          <button mat-stroked-button (click)="prevPage()" [disabled]="currentPage() === 1">
-            Anterior
-          </button>
-
-          <span class="page-indicator">
-            Página {{ currentPage() }} de {{ totalPages() }}
-          </span>
-
-          <button mat-stroked-button (click)="nextPage()" [disabled]="currentPage() === totalPages()">
-            Próxima
-          </button>
+      @if (isLoading()) {
+        <div class="v-loading-container">
+          <mat-spinner diameter="48" color="primary"></mat-spinner>
+          <p>Buscando os melhores veículos elétricos...</p>
         </div>
+      } @else {
+
+        <div class="v-cards-grid">
+          @for (item of paginatedItens(); track item.id) {
+            <v-catalog-card [item]="item" />
+          } @empty {
+            <div class="no-results-msg">Nenhum veículo encontrado.</div>
+          }
+        </div>
+
+        @if (totalPages() > 1) {
+          <div class="v-pagination-container">
+            <button mat-stroked-button (click)="prevPage()" [disabled]="currentPage() === 1">
+              Anterior
+            </button>
+
+            <span class="page-indicator">
+              Página {{ currentPage() }} de {{ totalPages() }}
+            </span>
+
+            <button mat-stroked-button (click)="nextPage()" [disabled]="currentPage() === totalPages()">
+              Próxima
+            </button>
+          </div>
+        }
       }
     </main>
   </div>

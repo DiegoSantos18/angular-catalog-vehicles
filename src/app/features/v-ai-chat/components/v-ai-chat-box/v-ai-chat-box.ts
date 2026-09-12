@@ -7,9 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
-import { VAiApi } from '../../services/v-ai-api/v-ai-api';
-import { AiProviderConfig } from '../../models/v-ai-chat-box/ai-provider-config';
-import { AiMessage } from '../../models/v-ai-chat-box/ai-message';
+import { VAiApi } from '../../../../core/services/v-ai-api/v-ai-api';
+import { VAiMessage } from '../../../../shared/models/v-ai-chat-box/v-ai-message';
+import { VAiProviderConfig } from '../../../../shared/models/v-ai-chat-box/v-ai-provider-config';
+
 
 @Component({
   selector: 'v-ai-chat-box',
@@ -34,9 +35,9 @@ export class VAiChatBox {
 
   userInput = signal('');
   isLoading = signal(false);
-  messages = signal<AiMessage[]>([]);
+  messages = signal<VAiMessage[]>([]);
 
-  readonly aiProviders: Record<string, AiProviderConfig> = {
+  readonly aiProviders: Record<string, VAiProviderConfig> = {
     Gemini: {
       name: 'Gemini',
       iconSet: 'fa-brands',

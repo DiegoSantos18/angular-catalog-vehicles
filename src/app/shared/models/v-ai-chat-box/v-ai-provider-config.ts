@@ -1,7 +1,7 @@
-import { VAiApi } from '../../services/v-ai-api/v-ai-api';
+import { VAiApi } from '../../../core/services/v-ai-api/v-ai-api';
 import { Observable } from 'rxjs';
 
-export interface AiProviderConfig {
+export interface VAiProviderConfig {
   name: string;
   iconSet: string;
   iconName: string;

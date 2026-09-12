@@ -1,0 +1,70 @@
+.v-filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.v-filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.v-full-width {
+  width: 100%;
+}
+
+.v-range-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.v-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .v-group-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #424242;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 6px;
+  }
+}
+
+.v-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+
+  mat-checkbox {
+    font-size: 14px;
+    color: #616161;
+  }
+}
+
+.v-filter-actions {
+  margin-top: 8px;
+  width: 100%;
+
+  button {
+    height: 44px;
+    font-weight: 500;
+  }
+}

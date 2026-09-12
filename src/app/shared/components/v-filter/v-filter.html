@@ -1,0 +1,51 @@
+<div class="v-filter-container" [formGroup]="filterForm">
+  @if (schema().showSearch !== false) {
+    <div class="v-filter-section search-section">
+      <mat-form-field appearance="outline" class="v-full-width">
+        <mat-label>{{ schema().searchLabel || 'Buscar...' }}</mat-label>
+        <input matInput formControlName="search" placeholder="Digite um termo para pesquisar..." />
+      </mat-form-field>
+    </div>
+  }
+
+  @if (schema().ranges; as rangeList) {
+    <div formGroupName="ranges" class="v-filter-section ranges-section">
+      @for (range of rangeList; track range.key) {
+        <div [formGroupName]="range.key" class="v-range-row">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ range.labelMin }}</mat-label>
+            <input matInput type="number" formControlName="min" placeholder="Mín" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ range.labelMax }}</mat-label>
+            <input matInput type="number" formControlName="max" placeholder="Máx" />
+          </mat-form-field>
+        </div>
+      }
+    </div>
+  }
+
+  @if (schema().multiSelects; as multiList) {
+    <div formGroupName="multiSelects" class="v-filter-section multis-section">
+      @for (group of multiList; track group.key) {
+        <div class="v-filter-group">
+          <h3 class="v-group-title">{{ group.title }}</h3>
+          <div [formGroupName]="group.key" class="v-checkbox-grid">
+            @for (option of group.options; track option) {
+              <mat-checkbox [formControlName]="option" color="primary">
+                {{ option }}
+              </mat-checkbox>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <div class="v-filter-actions">
+    <button mat-stroked-button color="warn" (click)="clearFilters()" type="button" class="v-full-width">
+      Limpar Filtros
+    </button>
+  </div>
+</div>
