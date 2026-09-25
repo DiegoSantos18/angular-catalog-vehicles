@@ -10,6 +10,32 @@ Acesse em: https://diegosantos18.github.io/angular-catalog-vehicles/
 ![Apresentação Tema Dark](.ideas/readme/image-4.png)
 ![Apresentação Troca Menu](.ideas/readme/image-5.png)
 
+## Vercel Backend Serverless & Configuração
+
+O projeto conta com funções serverless na Vercel (em `api/chat.ts`) que atuam como intermediárias seguras para provedores de inteligência artificial.
+
+![VERCEL](.ideas/readme/image-6.png)
+
+### 1. Variáveis de Ambiente (.env.local)
+Crie um arquivo `.env.local` na raiz do projeto com suas credenciais:
+```env
+GEMINI_API_KEY=sua_chave_gemini
+GEMINI_MODEL=gemini-3.5-flash-lite
+
+CHATGPT_API_KEY=SUA_CHAVE_OPENAI
+CHATGPT_MODEL=SEU_MODELO_OPENAI
+
+COPILOT_API_KEY=SUA_CHAVE_COPILOT
+COPILOT_MODEL=SEU_MODELO_COPILOT
+```
+
+### 2. Executando Localmente (vercel dev)
+Para rodar e testar o ambiente serverless localmente integrando com o `.env.local`, execute o script configurado no `package.json`:
+```bash
+npm run vercel-dev
+```
+O servidor da Vercel será iniciado localmente (geralmente na porta `3000`).
+
 ## Development server
 
 To start a local development server, run:
