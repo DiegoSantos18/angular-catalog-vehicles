@@ -1,0 +1,123 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.v-catalog-page-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  gap: 24px;
+  box-sizing: border-box;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.v-filters-sidebar {
+  flex-shrink: 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  ::ng-deep v-aside-panel,
+  ::ng-deep .v-aside-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.v-main-content-wrapper {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-right: 4px;
+  box-sizing: border-box;
+}
+
+.v-content-header {
+  padding-bottom: 16px;
+  flex-shrink: 0;
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.v-cards-content-area {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.v-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 24px;
+  align-items: stretch;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.v-pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: auto;
+  padding: 16px 0 24px 0;
+  box-sizing: border-box;
+
+  .page-indicator {
+    font-size: 0.875rem;
+    color: #616161;
+    font-weight: 500;
+  }
+}
+
+.v-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex: 1;
+  width: 100%;
+  min-height: 250px;
+  color: #757575;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.no-results-msg {
+  padding: 40px 0;
+  text-align: center;
+  color: #9e9e9e;
+  font-size: 1rem;
+  width: 100%;
+}

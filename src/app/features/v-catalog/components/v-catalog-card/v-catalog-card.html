@@ -1,0 +1,34 @@
+<mat-card class="v-product-card">
+  <div class="v-card-image-container">
+    <img [src]="item().imageUrl" [alt]="item().title" />
+    <span class="v-badge">{{ item().badge }}</span>
+    <button mat-icon-button class="v-favorite-btn" title="Favoritar">
+      <mat-icon>favorite_border</mat-icon>
+    </button>
+  </div>
+
+  <mat-card-content class="v-card-body">
+    <h3>{{ item().title }}</h3>
+    <p class="v-subtext">{{ item().subtitle }}</p>
+    <div class="v-price-row">
+      <span class="v-price">{{ item().price | currency:'BRL':'symbol' }}</span>
+      <span class="v-est-monthly"> Est. {{ item().monthlyEst | currency:'BRL':'symbol' }} / mês</span>
+    </div>
+
+    <div class="v-specs-row">
+      <span>{{ item().range }} km <small>Autonomia </small></span>
+      <span>{{ item().battery }} kW/h <small> Bateria </small></span>
+      <span>{{ item().acceleration }} s <small>0-100 km/h</small></span>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="v-card-footer">
+    <span class="v-location-info">
+      <div class="v-brand-badge">
+        <mat-icon [svgIcon]="item().brandIcon" />
+      </div>
+      {{ item().location }}
+    </span>
+    <a class="v-details-link" (click)="onViewDetails()">Ver detalhes</a>
+  </mat-card-actions>
+</mat-card>

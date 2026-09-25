@@ -1,0 +1,36 @@
+<nav class="v-nav-links" [class.toolbar-placement]="placement() === 'toolbar'"
+  [class.hover-mode]="interactionMode() === 'hover'" aria-label="Navegação principal">
+  @for (item of items(); track item.label) {
+    <div class="v-nav-item" [class.has-children]="hasChildren(item)" [class.expanded]="isExpanded(item)"
+      (mouseenter)="handleItemMouseEnter(item)" (mouseleave)="handleItemMouseLeave(item)">
+      @if (hasChildren(item)) {
+        <button mat-button type="button" class="v-nav-link" (click)="toggleItem(item)"
+          [attr.title]="item.label" [attr.aria-label]="item.label" [attr.aria-expanded]="isExpanded(item)">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+          <mat-icon class="v-nav-expand-icon">{{ isExpanded(item) ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </button>
+      } @else {
+        <a mat-button class="v-nav-link" [routerLink]="item.route" routerLinkActive="active"
+          [attr.title]="item.label" [attr.aria-label]="item.label"
+          [routerLinkActiveOptions]="{ exact: item.route === '/' }">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+
+      @if (hasChildren(item) && isExpanded(item)) {
+        <div class="v-nav-children">
+          @for (child of item.children; track child.label) {
+            <a mat-button class="v-nav-link" [routerLink]="child.route" routerLinkActive="active"
+              [attr.title]="child.label" [attr.aria-label]="child.label"
+              [routerLinkActiveOptions]="{ exact: child.route === '/' }">
+              <mat-icon>{{ child.icon }}</mat-icon>
+              <span>{{ child.label }}</span>
+            </a>
+          }
+        </div>
+      }
+    </div>
+  }
+</nav>
