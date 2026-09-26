@@ -10,7 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { VAiApi } from '../../../../core/services/v-ai-api/v-ai-api';
 import { VAiMessage } from '../../../../shared/models/v-ai-chat-box/v-ai-message';
 import { VAiProviderConfig } from '../../../../shared/models/v-ai-chat-box/v-ai-provider-config';
-
+import { VChatMessage } from '../../../../core/models/v-chat-message/v-chat-message';
 
 @Component({
   selector: 'v-ai-chat-box',
@@ -37,24 +37,39 @@ export class VAiChatBox {
   isLoading = signal(false);
   messages = signal<VAiMessage[]>([]);
 
-  readonly aiProviders: Record<string, VAiProviderConfig> = {
+  readonly aiProviders: Record<string, VAiProviderConfig & { apiCall: (api: VAiApi, messages: VChatMessage[]) => any }> = {
     Gemini: {
       name: 'Gemini',
       iconSet: 'fa-brands',
       iconName: 'fa-google',
-      apiCall: (api, text) => api.sendMessageToGemini(text)
+      apiCall: (api, messages) => {
+        const payload: VChatMessage[] = typeof messages === 'string'
+          ? [{ role: 'user', content: messages }]
+          : messages;
+        return api.sendMessageToGemini(payload);
+      }
     },
     ChatGPT: {
       name: 'ChatGPT',
       iconSet: 'fa-brands',
       iconName: 'fa-openai',
-      apiCall: (api, text) => api.sendMessageToChatGPT(text)
+      apiCall: (api, messages) => {
+        const payload: VChatMessage[] = typeof messages === 'string'
+          ? [{ role: 'user', content: messages }]
+          : messages;
+        return api.sendMessageToChatGPT(payload);
+      }
     },
     Copilot: {
       name: 'Copilot',
       iconSet: 'fa-brands',
       iconName: 'fa-microsoft',
-      apiCall: (api, text) => api.sendMessageToCopilot(text)
+      apiCall: (api, messages) => {
+        const payload: VChatMessage[] = typeof messages === 'string'
+          ? [{ role: 'user', content: messages }]
+          : messages;
+        return api.sendMessageToCopilot(payload);
+      }
     }
   };
 
@@ -63,7 +78,7 @@ export class VAiChatBox {
       name: this.aiName(),
       iconSet: '',
       iconName: 'smart_toy',
-      apiCall: (_, text) => {
+      apiCall: () => {
         throw new Error(`V Chat ${this.aiName()} não configurado.`);
       }
     };
@@ -98,38 +113,50 @@ export class VAiChatBox {
     if (!text || this.isLoading()) return;
 
     const time = this.getCurrentTime();
+
     this.messages.update(msgs => [...msgs, { sender: 'user', text, time }]);
     this.userInput.set('');
     this.isLoading.set(true);
     this.scrollToBottom();
 
-    const provider = this.currentProvider();
+    let chatMessages = this.messages().map(msg => ({
+      role: msg.sender === 'user' ? ('user' as const) : ('model' as const),
+      content: msg.text
+    }));
 
-    provider.apiCall(this.aiApiService, text).subscribe({
-      next: (res) => this.appendAiMessage(res),
-      error: (err) => {
-        console.error(`Erro ${provider.name}:`, err);
-        this.appendAiMessage(`Desculpe, ocorreu um erro ao se comunicar com o ${provider.name}.`);
+    const firstUserIndex = chatMessages.findIndex(m => m.role === 'user');
+    const historyPayload: VChatMessage[] = firstUserIndex !== -1 ? chatMessages.slice(firstUserIndex) : [];
+
+    this.currentProvider().apiCall(this.aiApiService, historyPayload).subscribe({
+      next: (response: string) => {
+        this.messages.update(msgs => [
+          ...msgs,
+          { sender: 'ai', text: response, time: this.getCurrentTime() }
+        ]);
+        this.isLoading.set(false);
+        this.scrollToBottom();
+      },
+      error: (err: any) => {
+        this.messages.update(msgs => [
+          ...msgs,
+          { sender: 'ai', text: 'Erro ao obter resposta da IA.', time: this.getCurrentTime() }
+        ]);
+        this.isLoading.set(false);
+        this.scrollToBottom();
       }
     });
   }
 
-  private appendAiMessage(text: string) {
-    const time = this.getCurrentTime();
-    this.messages.update(msgs => [...msgs, { sender: 'ai', text, time }]);
-    this.isLoading.set(false);
-    this.scrollToBottom();
-  }
-
   private getCurrentTime(): string {
-    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const now = new Date();
+    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
   private scrollToBottom() {
     setTimeout(() => {
-      const container = this.messagesContainer()?.nativeElement;
-      if (container) {
-        container.scrollTop = container.scrollHeight;
+      if (this.messagesContainer()) {
+        const el = this.messagesContainer()!.nativeElement;
+        el.scrollTop = el.scrollHeight;
       }
     }, 50);
   }

@@ -13,7 +13,6 @@ describe('VCatalogCard', () => {
     fixture = TestBed.createComponent(VCatalogCard);
     component = fixture.componentInstance;
 
-    // Fornece o input obrigatório 'item' exigido pelo componente
     fixture.componentRef.setInput('item', {
       id: '1',
       name: 'Model S',

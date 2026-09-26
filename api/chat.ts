@@ -27,53 +27,57 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { prompt, provider = 'gemini' } = req.body;
+    const { messages, prompt, provider = 'gemini' } = req.body;
+    const chatHistory = messages || (prompt ? [{ role: 'user', content: prompt }] : []);
 
-    if (!prompt) {
-      return res.status(400).json({ error: 'Prompt é obrigatório' });
+    if (chatHistory.length === 0) {
+      return res.status(400).json({ error: 'Mensagens ou prompt são obrigatórios' });
     }
 
     let text = '';
 
     if (provider === 'gemini') {
       const apiKey = process.env.GEMINI_API_KEY;
-      const modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
-      if (!apiKey) {
-        return res.status(500).json({ error: 'Chave do Gemini não configurada no servidor' });
+      const modelName = process.env.GEMINI_MODEL;
+      if (!apiKey || !modelName) {
+        return res.status(500).json({ error: 'Chave do Gemini ou modelo não configurados no servidor' });
       }
 
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: modelName });
-      const result = await model.generateContent(prompt);
+
+      const historyFormatted = chatHistory.slice(0, -1).map((m: any) => ({
+        role: m.role === 'user' ? 'user' : 'model',
+        parts: [{ text: m.content }]
+      }));
+
+      const lastMessage = chatHistory[chatHistory.length - 1].content;
+
+      const chat = model.startChat({ history: historyFormatted });
+      const result = await chat.sendMessage(lastMessage);
       text = result.response.text();
 
-    } else if (provider === 'chatgpt') {
-      const apiKey = process.env.CHATGPT_API_KEY;
-      const modelName = process.env.CHATGPT_MODEL || 'gpt-4o-mini';
-      if (!apiKey) {
-        return res.status(500).json({ error: 'Chave do ChatGPT não configurada no servidor' });
+    } else if (provider === 'chatgpt' || provider === 'copilot') {
+      const envKey = provider === 'chatgpt' ? 'CHATGPT_API_KEY' : 'COPILOT_API_KEY';
+      const apiKey = process.env[envKey];
+      const modelName = process.env[`${provider.toUpperCase()}_MODEL`];
+
+      if (!apiKey || !modelName) {
+        return res.status(500).json({ error: `Chave do ${provider} ou modelo não configurados no servidor` });
       }
 
       const openai = new OpenAI({ apiKey });
+
+      const formattedMessages = chatHistory.map((m: any) => ({
+        role: m.role === 'user' ? 'user' : 'assistant' as const,
+        content: m.content
+      }));
+
       const completion = await openai.chat.completions.create({
         model: modelName,
-        messages: [{ role: 'user', content: prompt }]
+        messages: formattedMessages
       });
-      text = completion.choices[0]?.message?.content || 'Sem resposta do ChatGPT.';
-
-    } else if (provider === 'copilot') {
-      const apiKey = process.env.COPILOT_API_KEY;
-      const modelName = process.env.COPILOT_MODEL || 'gpt-4o';
-      if (!apiKey) {
-        return res.status(500).json({ error: 'Chave do Copilot não configurada no servidor' });
-      }
-
-      const openai = new OpenAI({ apiKey });
-      const completion = await openai.chat.completions.create({
-        model: modelName,
-        messages: [{ role: 'user', content: prompt }]
-      });
-      text = completion.choices[0]?.message?.content || 'Sem resposta do Copilot.';
+      text = completion.choices[0]?.message?.content || `Sem resposta do ${provider}.`;
 
     } else {
       return res.status(400).json({ error: 'Provedor de IA desconhecido' });
@@ -84,5 +88,3 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: error.message || 'Erro interno ao processar o chat' });
   }
 }
-
-
