@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { VCatalogApi } from './v-catalog-api';
+import { VBrandMockApi } from './v-brand-mock-api';
 
-describe('VCatalogApiTs', () => {
-  let service: VCatalogApi;
+describe('VehicleMock', () => {
+  let service: VBrandMockApi;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(VCatalogApi);
+    service = TestBed.inject(VBrandMockApi);
   });
 
   it('should be created', () => {

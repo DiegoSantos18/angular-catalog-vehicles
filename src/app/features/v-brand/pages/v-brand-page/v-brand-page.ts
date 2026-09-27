@@ -3,42 +3,39 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { VAsidePanel } from '../../../../shared/components/v-aside-panel/v-aside-panel';
-import { VCatalogCard } from '../../components/v-catalog-card/v-catalog-card';
+import { VBrandCard } from '../../components/v-brand-card/v-brand-card';
 import { VGobalSearch } from '../../../../core/services/v-global-search/v-gobal-search';
-import { VCatalogBaseApi } from '../../../../core/services/v-catalog/interface/v-catalog/v-catalog-base-api';
-import { VCatalogFilterComponent } from '../../components/v-catalog-filter/v-catalog-filter/v-catalog-filter';
+import { VBrandBaseApi } from '../../../../core/services/v-catalog/interface/v-brand/v-brand-base-api';
+import { VBrandFilterComponent } from '../../components/v-brand-filter/v-brand-filter/v-brand-filter';
 import { VFilter } from '../../../../shared/models/v-filter/v-filter';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { VCatalog } from '../../../../core/models/v-catalog/v-catalog';
+import { VBrand } from '../../../../core/models/v-brand/v-brand';
 import { VModal } from '../../../../shared/components/v-modal/v-modal';
 
 @Component({
-  selector: 'v-catalog-page',
+  selector: 'v-brand-page',
   imports: [
     CommonModule,
     MatButtonModule,
     MatProgressSpinnerModule,
     VAsidePanel,
-    VCatalogFilterComponent,
-    VCatalogCard
+    VBrandFilterComponent,
+    VBrandCard
   ],
-  styleUrl: './v-catalog-page.scss',
-  templateUrl: './v-catalog-page.html',
+  styleUrl: './v-brand-page.scss',
+  templateUrl: './v-brand-page.html',
 })
-export class VCatalogPage implements OnInit {
-  private vCatalogApi = inject(VCatalogBaseApi);
+export class VBrandPage implements OnInit {
+  private vBrandApi = inject(VBrandBaseApi);
   globalSearch = inject(VGobalSearch);
   private dialog = inject(MatDialog);
 
-  allItens = signal<VCatalog[]>([]);
+  allItens = signal<VBrand[]>([]);
   isLoading = signal<boolean>(true);
 
   currentFilters = signal<VFilter['result']>({
     search: '',
-    ranges: {
-      price: { min: null, max: null },
-      year: { min: null, max: null }
-    },
+    ranges: {},
     multiSelects: {
       brands: [],
       conditions: []
@@ -60,21 +57,21 @@ export class VCatalogPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadCatalogData();
+    this.loadBrandData();
   }
 
-  loadCatalogData(): void {
+  loadBrandData(): void {
     this.isLoading.set(true);
 
-    this.vCatalogApi.getVCatalog().subscribe({
+    this.vBrandApi.getVBrand().subscribe({
       next: (data) => {
         const sortedData = data.sort((a, b) =>
-          (a.title || '').localeCompare(b.title || '', 'pt-BR', { sensitivity: 'accent' })
+          (a.name || '').localeCompare(b.name || '', 'pt-BR', { sensitivity: 'accent' })
         );
         this.allItens.set(sortedData);
       },
       error: (err) => {
-        console.error('Erro ao buscar o catálogo:', err);
+        console.error('Erro ao buscar a marca:', err);
       },
       complete: () => {
         this.isLoading.set(false);
@@ -82,12 +79,12 @@ export class VCatalogPage implements OnInit {
     });
   }
 
-  openDetails(item: VCatalog): void {
+  openDetails(item: VBrand): void {
     this.dialog.open(VModal, {
       width: '550px',
       data: {
-        title: item.title,
-        message: `Localização: ${item.location} | Condição: ${item.badge}\n\nEste veículo elétrico inspecionado conta com autonomia de ${item.range} km, bateria de ${item.battery} kW/h e aceleração de 0-100 km/h em ${item.acceleration}s.`
+        title: item.name,
+        message: item.description
       }
     });
   }
@@ -99,32 +96,15 @@ export class VCatalogPage implements OnInit {
     return items.filter(item => {
       if (filters.search) {
         const query = filters.search.toLowerCase();
-        const matchTitle = item.title?.toLowerCase().includes(query);
-        const matchLocation = item.location?.toLowerCase().includes(query);
-        if (!matchTitle && !matchLocation) return false;
-      }
-
-      const priceRange = filters.ranges?.['price'];
-      if (priceRange) {
-        if (priceRange.min !== null && priceRange.min !== undefined && item.price < priceRange.min) return false;
-        if (priceRange.max !== null && priceRange.max !== undefined && item.price > priceRange.max) return false;
-      }
-
-      const rangeFilter = filters.ranges?.['year'];
-      if (rangeFilter) {
-        if (rangeFilter.min !== null && rangeFilter.min !== undefined && item.range < rangeFilter.min) return false;
-        if (rangeFilter.max !== null && rangeFilter.max !== undefined && item.range > rangeFilter.max) return false;
+        const matchName = item.name?.toLowerCase().includes(query);
+        const matchDescription = item.description?.toLowerCase().includes(query);
+        if (!matchName && !matchDescription) return false;
       }
 
       const selectedBrands = filters.multiSelects?.['brands'] || [];
       if (selectedBrands.length > 0) {
-        const matchBrand = selectedBrands.some(b => item.title?.toLowerCase().includes(b.toLowerCase()));
+        const matchBrand = selectedBrands.some(b => item.description?.toLowerCase().includes(b.toLowerCase()));
         if (!matchBrand) return false;
-      }
-
-      const selectedConditions = filters.multiSelects?.['conditions'] || [];
-      if (selectedConditions.length > 0) {
-        if (!selectedConditions.includes(item.badge)) return false;
       }
 
       return true;

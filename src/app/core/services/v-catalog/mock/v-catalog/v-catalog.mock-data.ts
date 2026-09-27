@@ -1,4 +1,4 @@
-import { VCatalog } from "../../../models/v-catalog/v-catalog";
+import { VCatalog } from "../../../../models/v-catalog/v-catalog";
 
 export const MOCK_VCatalog: VCatalog[] = [
   {

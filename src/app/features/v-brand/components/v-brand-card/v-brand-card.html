@@ -1,0 +1,19 @@
+<mat-card class="v-product-card">
+  <div class="v-card-image-container">
+    <img [src]="item().imageUrl" [alt]="item().title" />
+    <button mat-icon-button class="v-favorite-btn" (click)="toggleFavorite($event)" title="Favoritar">
+      <mat-icon [ngStyle]="{ color: isFavorite() ? 'var(--mat-sys-primary)' : '#ffffff' }">
+        {{ isFavorite() ? 'favorite' : 'favorite_border' }}
+      </mat-icon>
+    </button>
+  </div>
+
+  <mat-card-content class="v-card-body">
+    <h3>{{ item().name }}</h3>
+    <p class="v-subtext">{{ item().description }}</p>
+  </mat-card-content>
+
+  <mat-card-actions class="v-card-footer">
+    <a class="v-details-link" (click)="onViewDetails()">Ver detalhes</a>
+  </mat-card-actions>
+</mat-card>

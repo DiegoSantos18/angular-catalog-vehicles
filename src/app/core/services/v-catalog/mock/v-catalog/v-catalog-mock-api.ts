@@ -1,7 +1,7 @@
 import { Service } from '@angular/core';
-import { VCatalogBaseApi } from '../interface/v-catalog-base-api';
-import { MOCK_VCatalog } from './v-catalog.mock-data';
-import { VCatalog } from '../../../models/v-catalog/v-catalog';
+import { VCatalogBaseApi } from '../../interface/v-catalog/v-catalog-base-api';
+import { MOCK_VCatalog } from '../../mock/v-catalog/v-catalog.mock-data';
+import { VCatalog } from '../../../../models/v-catalog/v-catalog';
 import { delay, Observable, of } from 'rxjs';
 
 @Service()

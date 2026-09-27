@@ -1,0 +1,40 @@
+.v-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 0 24px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .v-close-btn {
+    color: var(--mat-sys-on-surface-variant);
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-highest);
+    }
+  }
+}
+
+.v-modal-body {
+  padding: 16px 24px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--mat-sys-on-surface);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.v-modal-footer {
+  padding: 12px 24px 16px 24px;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
+.v-modal-footer:empty {
+  display: none;
+  padding: 0;
+  border: none;
+}

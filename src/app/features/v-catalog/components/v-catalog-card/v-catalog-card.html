@@ -2,8 +2,10 @@
   <div class="v-card-image-container">
     <img [src]="item().imageUrl" [alt]="item().title" />
     <span class="v-badge">{{ item().badge }}</span>
-    <button mat-icon-button class="v-favorite-btn" title="Favoritar">
-      <mat-icon>favorite_border</mat-icon>
+    <button mat-icon-button class="v-favorite-btn" (click)="toggleFavorite($event)" title="Favoritar">
+      <mat-icon [ngStyle]="{ color: isFavorite() ? 'var(--mat-sys-primary)' : '#ffffff' }">
+        {{ isFavorite() ? 'favorite' : 'favorite_border' }}
+      </mat-icon>
     </button>
   </div>
 

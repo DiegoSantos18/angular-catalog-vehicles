@@ -3,22 +3,22 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { VCatalog } from '../../../../core/models/v-catalog/v-catalog';
+import { VBrand } from '../../../../core/models/v-brand/v-brand';
 
 @Component({
-  selector: 'v-catalog-card',
+  selector: 'v-brand-card',
   imports: [
     CommonModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule
   ],
-  templateUrl: './v-catalog-card.html',
-  styleUrl: './v-catalog-card.scss'
+  templateUrl: './v-brand-card.html',
+  styleUrl: './v-brand-card.scss'
 })
-export class VCatalogCard {
-  item = input.required<VCatalog>();
-  viewDetails = output<VCatalog>();
+export class VBrandCard {
+  item = input.required<VBrand>();
+  viewDetails = output<VBrand>()
   isFavorite = signal<boolean>(false);
 
   toggleFavorite(event: Event): void {
